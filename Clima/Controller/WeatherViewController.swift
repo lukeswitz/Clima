@@ -18,13 +18,13 @@ class WeatherViewController: UIViewController {
     
     var weatherManager = WeatherManager()
     let locationManager = CLLocationManager()
+    var requestCount = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         locationManager.delegate = self
         
-        //Deprecations in this workflow
         locationManager.requestWhenInUseAuthorization()
         locationManager.requestLocation()
 
@@ -32,7 +32,7 @@ class WeatherViewController: UIViewController {
         searchTextField.delegate = self
     }
     @IBAction func locationPressed(_ sender: UIButton) {
-        locationManager.requestLocation()
+        self.locationManager.requestLocation()
     }
 }
 
@@ -66,7 +66,7 @@ extension WeatherViewController: UITextFieldDelegate {
         if let city = searchTextField.text {
             weatherManager.fetchWeather(cityName: city)
         }
-        
+
         searchTextField.text = ""
     }
 }
@@ -85,6 +85,7 @@ extension WeatherViewController: WeatherManagerDelegate {
     
     func didFailWithError(error: Error) {
         print("Error: ", error)
+        
     }
 
 }
@@ -102,7 +103,21 @@ extension WeatherViewController: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        DispatchQueue.main.async {
+            self.temperatureLabel.text = ""
+            self.cityLabel.text = "Location Error"
+        }
         print(error)
+        
+    }
+    
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        if (self.locationManager.authorizationStatus != CLAuthorizationStatus.authorizedWhenInUse
+            || self.locationManager.authorizationStatus != CLAuthorizationStatus.authorizedAlways) {
+            self.locationManager.requestLocation()
+        } else {
+            self.locationManager.requestWhenInUseAuthorization()
+        }
     }
     
 }
