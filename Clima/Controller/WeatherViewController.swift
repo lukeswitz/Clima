@@ -105,10 +105,9 @@ extension WeatherViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         DispatchQueue.main.async {
             self.temperatureLabel.text = ""
-            self.cityLabel.text = "Location Error"
+            self.cityLabel.text = ""
         }
         print(error)
-        
     }
     
     func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
