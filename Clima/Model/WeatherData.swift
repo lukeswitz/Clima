@@ -12,6 +12,8 @@ struct WeatherData: Decodable {
     let name: String
     let main: Main
     let weather: [Weather]
+    let timezone: Double
+    let sys: StationInfo
 }
 
 struct Main: Decodable {
@@ -21,4 +23,9 @@ struct Main: Decodable {
 struct Weather: Decodable {
     let description: String
     let id: Int //id for conditions
+}
+
+struct StationInfo: Decodable {
+    let sunrise: TimeInterval
+    let sunset: TimeInterval
 }

@@ -85,7 +85,6 @@ extension WeatherViewController: WeatherManagerDelegate {
     
     func didFailWithError(error: Error) {
         print("Error: ", error)
-        
     }
 
 }
@@ -103,10 +102,6 @@ extension WeatherViewController: CLLocationManagerDelegate {
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        DispatchQueue.main.async {
-            self.temperatureLabel.text = ""
-            self.cityLabel.text = ""
-        }
         print(error)
     }
     

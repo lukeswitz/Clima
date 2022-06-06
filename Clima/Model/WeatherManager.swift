@@ -54,8 +54,14 @@ struct WeatherManager {
             let id = decodedData.weather[0].id
             let temp = decodedData.main.temp
             let name = decodedData.name
-            
-            let weather = WeatherModel(conditionId: id, cityName: name, temperature: temp)
+            let timezoneOffset = decodedData.timezone
+            let timeThere = Date()
+            let time = timeThere - timezoneOffset
+            let timestamp = round(time.timeIntervalSince1970)
+            let sunrise = decodedData.sys.sunrise
+            let sunset = decodedData.sys.sunset
+            let isDaytime = sunrise...sunset ~= timestamp
+            let weather = WeatherModel(conditionId: id, cityName: name, temperature: temp, isDay: isDaytime)
             return weather
         } catch {
             delegate?.didFailWithError(error: error)
