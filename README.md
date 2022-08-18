@@ -1,4 +1,5 @@
-## Skills Developed:
+### Project Overview
+#### Skills: Networking, JSON Parsing, APIs and Core Location
 
 * How to create a dark-mode enabled app.
 * How to use vector images as image assets.
